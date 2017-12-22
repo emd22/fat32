@@ -55,6 +55,10 @@ stdint.h
 -
 stddef.h
 -
+stdlib.h
+-
+string.h
+-
 write.h
 -
 

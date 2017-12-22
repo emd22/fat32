@@ -6,44 +6,58 @@
 #include <write.h>
 #include <mbr/mbr.h>
 
-void load_mbr() {
+#define FAT32 0x0C
+
+void load_mbr(partition_t *parts, size_t b_size) {
     static int tried = 0;
 
     uint8_t status;
     status = mbr_load();
     if (status == MBR_NOT_VALID) {
-        mbr_new();
+        mbr_new(parts, b_size);
         if (tried) {
             printf("MBR error: MBR not valid\n");
             exit(EXIT_FAILURE);
         }
-        load_mbr();
+        load_mbr(parts, b_size);
         tried = 1;
     }
 }
 
+void write_partitions(partition_t *partitions, size_t b_size) {
+    int eq_size = b_size/512;
+    int i;
+    for (i = 0; i < 4; i++) {
+        partitions[i].lba_first_sector = eq_size*i;
+        partitions[i].lba_sector_count = eq_size;
+        printf("new partition: %d - %d\n", eq_size*i, (eq_size*i)+eq_size);
+    }
+}
+
 int main() {
+    size_t b_size = 12000; //12 KiBs
+
+    format_disk(b_size);
+    partition_t parts[4];
+    write_partitions(parts, b_size);
+
     mbr_t *mbr;
 
     drive_init();
-    load_mbr();
+    
+    mbr_select_partition(PART_2);
+    set_sys_id(FAT32, PARTITION_ENTRY_2);
 
-    mbr = get_mbr();
+    load_mbr(parts, b_size);
+    mbr = mbr_get();
 
     uint8_t out[32];
     out[0] = '8';
 
-    mbr_select_partition(PART_1);
-    mbr_io(WRITE, out, 0, 0, 1);
-
-    if (mbr->partitions[0].error_code == MBR_EMPTY_PARTITION ||
-        mbr->partitions[1].error_code == MBR_EMPTY_PARTITION) 
-    {
-        printf("MBR EMPTY PARTITIONS!\n");
-    }
+    mbr_io(WRITE, out, 0, 1);
 
     uint8_t in[32];
-    mbr_io(READ, in, 0, 0, 1);
+    mbr_io(READ, in, 0, 1);
     printf("got: %d\n", in[0]);
 
     return EXIT_SUCCESS;

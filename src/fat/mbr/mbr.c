@@ -35,12 +35,22 @@ uint32_t to_uint32(uint8_t *n, unsigned pos) {
 create a new MBR on disk
 (file in this case)
 */
-void mbr_new(void) {
+void mbr_new(partition_t *partitions, size_t b_size) {
+    format_disk(b_size);
+
     uint8_t mbr_head[512];
+
+    memset(mbr_head, 0, 512);
 
     //setting mbr signature
     mbr_head[510] = 0x55;
     mbr_head[511] = 0xAA;
+
+    int i;
+    for (i = 0; i < 4; i++) {
+        mbr_head[PARTITION_ENTRY_1+(i*10)+8] = partitions[i].lba_first_sector;
+        mbr_head[PARTITION_ENTRY_1+(i*10)+12] = partitions[i].lba_sector_count;
+    }
 
     drive_write(mbr_head, 0, 512);
 }
@@ -50,7 +60,8 @@ void parse_partition(int part_n, uint8_t *mbr_head, size_t location) {
     char sys_id = mbr_head[location+4];
 
     if (!sys_id) {
-        part->error_code = MBR_EMPTY_PARTITION;
+        printf("Partition %d is empty.\n", part_n+1);
+        part->error_code = MBR_NO_SYS_ID;
     }
 
     if (sys_id == 0x50 || sys_id == 0xF0 || sys_id == 0x85) {
@@ -83,8 +94,9 @@ int mbr_load(void) {
     //try and read partitions
 
     int i;
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++) {
         parse_partition(i, mbr_head, PARTITION_ENTRY_1+(i*10));
+    }
     
     return 0;
 }
@@ -93,30 +105,22 @@ void mbr_select_partition(enum SELECTED_PART part_n) {
     def_part = part_n;
 }
 
-void mbr_io(enum RW_TYPE type, uint8_t *buffer, size_t lba, size_t sector_len, size_t precise_len) {
-    size_t len = 0;
-
-    switch (type) {
-        case WRITE:
-        case READ:
-            len = precise_len;
-            break;
-        case WRITE_SECTORS:
-        case READ_SECTORS:
-            len = sector_len*512;
-            break;
-    }
-
-    if (type == READ || type == READ_SECTORS) {
+void mbr_io(enum RW_TYPE type, uint8_t *buffer, size_t lba, size_t len) {
+    if (type == READ) {
         //read
-        drive_read(buffer, mbr.partitions[def_part].lba_first_sector+lba, len);
+        drive_read(buffer, mbr.partitions[def_part].lba_first_sector+512+lba, len);
     }
     else {
         //write
-        drive_write(buffer, mbr.partitions[def_part].lba_first_sector+lba, len);
+        drive_write(buffer, mbr.partitions[def_part].lba_first_sector+512+lba, len);
     }
 }
 
-mbr_t *get_mbr(void) {
+mbr_t *mbr_get(void) {
     return &mbr;
+}
+
+void set_sys_id(uint8_t sys_id, int position) {
+    puts("writing sys_id");
+    mbr_io(WRITE, &sys_id, position+4, 1);
 }

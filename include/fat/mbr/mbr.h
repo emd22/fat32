@@ -4,9 +4,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define MBR_EMPTY_PARTITION 1
-#define MBR_FOUND_EBR       2
-#define MBR_NOT_VALID       3
+#define MBR_NO_SYS_ID 1
+#define MBR_FOUND_EBR 2
+#define MBR_NOT_VALID 3
 
 /*
 these are the locations which each partition is located.
@@ -21,9 +21,7 @@ enum {
 enum RW_TYPE {
     RW_NONE,
     READ,
-    READ_SECTORS,
     WRITE,
-    WRITE_SECTORS,
 };
 
 enum SELECTED_PART {
@@ -55,8 +53,9 @@ typedef struct {
 
 int mbr_load(void);
 void mbr_select_partition(enum SELECTED_PART part_n);
-void mbr_io(enum RW_TYPE type, uint8_t *buffer, size_t lba, size_t sector_len, size_t precise_len);
-mbr_t *get_mbr(void);
-void mbr_new(void);
+void mbr_io(enum RW_TYPE type, uint8_t *buffer, size_t lba, size_t len);
+mbr_t *mbr_get(void);
+void mbr_new(partition_t *partitions, size_t b_size);
+void set_sys_id(uint8_t sys_id, int position);
 
 #endif
