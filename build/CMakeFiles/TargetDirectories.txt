@@ -1,3 +1,3 @@
 /home/ethan/Desktop/fat32/build/CMakeFiles/edit_cache.dir
-/home/ethan/Desktop/fat32/build/CMakeFiles/fat.dir
 /home/ethan/Desktop/fat32/build/CMakeFiles/rebuild_cache.dir
+/home/ethan/Desktop/fat32/build/CMakeFiles/fat.dir

@@ -37,14 +37,14 @@ void write_partitions(partition_t *partitions, size_t b_size) {
 int main() {
     size_t b_size = 12000; //12 KiBs
 
+    drive_init();
+
     format_disk(b_size);
     partition_t parts[4];
     write_partitions(parts, b_size);
 
     mbr_t *mbr;
 
-    drive_init();
-    
     mbr_select_partition(PART_2);
     set_sys_id(FAT32, PARTITION_ENTRY_2);
 
@@ -59,6 +59,8 @@ int main() {
     uint8_t in[32];
     mbr_io(READ, in, 0, 1);
     printf("got: %d\n", in[0]);
+
+    drive_close();
 
     return EXIT_SUCCESS;
 }

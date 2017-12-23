@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/fat.dir/fat/write.c.o"
-  "CMakeFiles/fat.dir/fat/mbr/mbr.c.o"
   "CMakeFiles/fat.dir/fat/main.c.o"
+  "CMakeFiles/fat.dir/fat/mbr/mbr.c.o"
+  "CMakeFiles/fat.dir/fat/write.c.o"
   "fat.pdb"
   "fat"
 )

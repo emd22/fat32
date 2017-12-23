@@ -15,46 +15,57 @@
 // how PATA works and build off that.
 
 static FILE *fp;
-static int drive_size = 0;
+static size_t drive_size = 0;
 
-void drive_init(void) {
-    // open file for binary reading + writing without overwrite.
-    const char *fn = "test_drive";
-
-    fp = fopen(fn, "a+b"); 
-    if (fp == NULL) {
-        printf("error with file %s\n", fn);
-        exit(1);
-    }
-}
-
-void drive_read(uint8_t *buf, size_t pos, size_t size) {
-    fseek(fp, pos, SEEK_SET);    
-    fread(buf, 1, size, fp);
-}
-
-void get_drive_size(void) {
+void set_drive_size(void) {
     size_t old = ftell(fp);
-    fseek(fp, 0, SEEK_END);
+    fseek(fp, 0L, SEEK_END);
     drive_size = ftell(fp);
     fseek(fp, old, SEEK_SET);
 }
 
+void drive_init(void) {
+    // open file for binary reading + appending.
+    const char *fn = "test_drive";
+
+    fp = fopen(fn, "a+b"); 
+    
+    if (fp == NULL) {
+        printf("error with file %s\n", fn);
+        exit(EXIT_FAILURE);
+    }
+
+    set_drive_size();
+    fseek(fp, 0, SEEK_SET);
+}
+
+void drive_read(uint8_t *buf, size_t pos, size_t size) {
+    if (pos > drive_size || pos < 0) {
+        memset(buf, 0, size);
+        return;
+    }
+    fseek(fp, pos, SEEK_SET);    
+    fread(buf, 1, size, fp);
+}
+
 void drive_write(uint8_t *buf, size_t pos, size_t size) {
-    fseek(fp, pos, SEEK_SET);
+    if (pos != drive_size)
+        fseek(fp, pos, SEEK_SET);
+    else
+        fseek(fp, 0, SEEK_END);
     fwrite(buf, 1, size, fp);
 }
 
 void format_disk(size_t bytes) {
-    //+1 sector for MBR header
-    size_t sector_amt = (bytes/512)+1;
+    static const char zeros[4096];
+    size_t size = fseek(fp, 0, SEEK_END);
+    fseek(fp, 0, SEEK_SET);
+    while (size > sizeof zeros)
+        size -= fwrite(zeros, 1, sizeof zeros, fp);
+    while (size)
+        size -= fwrite(zeros, 1, size, fp);
+}
 
-    uint8_t *dat = (uint8_t *)malloc(sector_amt);
-    memset(dat, 0, sector_amt);
-
-    int i;
-    for (i = 0; i < 512; i++) {
-        drive_write(dat, i*sector_amt, sector_amt);
-    }
-    free(dat);
+void drive_close() {
+    fclose(fp);
 }

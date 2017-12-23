@@ -57,28 +57,28 @@ include CMakeFiles/fat.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/fat.dir/flags.make
 
-CMakeFiles/fat.dir/fat/write.c.o: CMakeFiles/fat.dir/flags.make
-CMakeFiles/fat.dir/fat/write.c.o: /home/ethan/Desktop/fat32/src/fat/write.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Desktop/fat32/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/fat.dir/fat/write.c.o"
-	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=write.c $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fat.dir/fat/write.c.o   -c /home/ethan/Desktop/fat32/src/fat/write.c
+CMakeFiles/fat.dir/fat/main.c.o: CMakeFiles/fat.dir/flags.make
+CMakeFiles/fat.dir/fat/main.c.o: /home/ethan/Desktop/fat32/src/fat/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Desktop/fat32/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/fat.dir/fat/main.c.o"
+	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=main.c $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fat.dir/fat/main.c.o   -c /home/ethan/Desktop/fat32/src/fat/main.c
 
-CMakeFiles/fat.dir/fat/write.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fat.dir/fat/write.c.i"
-	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=write.c $(C_INCLUDES) $(C_FLAGS) -E /home/ethan/Desktop/fat32/src/fat/write.c > CMakeFiles/fat.dir/fat/write.c.i
+CMakeFiles/fat.dir/fat/main.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fat.dir/fat/main.c.i"
+	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=main.c $(C_INCLUDES) $(C_FLAGS) -E /home/ethan/Desktop/fat32/src/fat/main.c > CMakeFiles/fat.dir/fat/main.c.i
 
-CMakeFiles/fat.dir/fat/write.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fat.dir/fat/write.c.s"
-	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=write.c $(C_INCLUDES) $(C_FLAGS) -S /home/ethan/Desktop/fat32/src/fat/write.c -o CMakeFiles/fat.dir/fat/write.c.s
+CMakeFiles/fat.dir/fat/main.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fat.dir/fat/main.c.s"
+	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=main.c $(C_INCLUDES) $(C_FLAGS) -S /home/ethan/Desktop/fat32/src/fat/main.c -o CMakeFiles/fat.dir/fat/main.c.s
 
-CMakeFiles/fat.dir/fat/write.c.o.requires:
+CMakeFiles/fat.dir/fat/main.c.o.requires:
 
-.PHONY : CMakeFiles/fat.dir/fat/write.c.o.requires
+.PHONY : CMakeFiles/fat.dir/fat/main.c.o.requires
 
-CMakeFiles/fat.dir/fat/write.c.o.provides: CMakeFiles/fat.dir/fat/write.c.o.requires
-	$(MAKE) -f CMakeFiles/fat.dir/build.make CMakeFiles/fat.dir/fat/write.c.o.provides.build
-.PHONY : CMakeFiles/fat.dir/fat/write.c.o.provides
+CMakeFiles/fat.dir/fat/main.c.o.provides: CMakeFiles/fat.dir/fat/main.c.o.requires
+	$(MAKE) -f CMakeFiles/fat.dir/build.make CMakeFiles/fat.dir/fat/main.c.o.provides.build
+.PHONY : CMakeFiles/fat.dir/fat/main.c.o.provides
 
-CMakeFiles/fat.dir/fat/write.c.o.provides.build: CMakeFiles/fat.dir/fat/write.c.o
+CMakeFiles/fat.dir/fat/main.c.o.provides.build: CMakeFiles/fat.dir/fat/main.c.o
 
 
 CMakeFiles/fat.dir/fat/mbr/mbr.c.o: CMakeFiles/fat.dir/flags.make
@@ -105,42 +105,42 @@ CMakeFiles/fat.dir/fat/mbr/mbr.c.o.provides: CMakeFiles/fat.dir/fat/mbr/mbr.c.o.
 CMakeFiles/fat.dir/fat/mbr/mbr.c.o.provides.build: CMakeFiles/fat.dir/fat/mbr/mbr.c.o
 
 
-CMakeFiles/fat.dir/fat/main.c.o: CMakeFiles/fat.dir/flags.make
-CMakeFiles/fat.dir/fat/main.c.o: /home/ethan/Desktop/fat32/src/fat/main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Desktop/fat32/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/fat.dir/fat/main.c.o"
-	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=main.c $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fat.dir/fat/main.c.o   -c /home/ethan/Desktop/fat32/src/fat/main.c
+CMakeFiles/fat.dir/fat/write.c.o: CMakeFiles/fat.dir/flags.make
+CMakeFiles/fat.dir/fat/write.c.o: /home/ethan/Desktop/fat32/src/fat/write.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Desktop/fat32/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/fat.dir/fat/write.c.o"
+	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=write.c $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fat.dir/fat/write.c.o   -c /home/ethan/Desktop/fat32/src/fat/write.c
 
-CMakeFiles/fat.dir/fat/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fat.dir/fat/main.c.i"
-	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=main.c $(C_INCLUDES) $(C_FLAGS) -E /home/ethan/Desktop/fat32/src/fat/main.c > CMakeFiles/fat.dir/fat/main.c.i
+CMakeFiles/fat.dir/fat/write.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fat.dir/fat/write.c.i"
+	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=write.c $(C_INCLUDES) $(C_FLAGS) -E /home/ethan/Desktop/fat32/src/fat/write.c > CMakeFiles/fat.dir/fat/write.c.i
 
-CMakeFiles/fat.dir/fat/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fat.dir/fat/main.c.s"
-	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=main.c $(C_INCLUDES) $(C_FLAGS) -S /home/ethan/Desktop/fat32/src/fat/main.c -o CMakeFiles/fat.dir/fat/main.c.s
+CMakeFiles/fat.dir/fat/write.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fat.dir/fat/write.c.s"
+	/usr/bin/cc  $(C_DEFINES) -D__FILENAME__=write.c $(C_INCLUDES) $(C_FLAGS) -S /home/ethan/Desktop/fat32/src/fat/write.c -o CMakeFiles/fat.dir/fat/write.c.s
 
-CMakeFiles/fat.dir/fat/main.c.o.requires:
+CMakeFiles/fat.dir/fat/write.c.o.requires:
 
-.PHONY : CMakeFiles/fat.dir/fat/main.c.o.requires
+.PHONY : CMakeFiles/fat.dir/fat/write.c.o.requires
 
-CMakeFiles/fat.dir/fat/main.c.o.provides: CMakeFiles/fat.dir/fat/main.c.o.requires
-	$(MAKE) -f CMakeFiles/fat.dir/build.make CMakeFiles/fat.dir/fat/main.c.o.provides.build
-.PHONY : CMakeFiles/fat.dir/fat/main.c.o.provides
+CMakeFiles/fat.dir/fat/write.c.o.provides: CMakeFiles/fat.dir/fat/write.c.o.requires
+	$(MAKE) -f CMakeFiles/fat.dir/build.make CMakeFiles/fat.dir/fat/write.c.o.provides.build
+.PHONY : CMakeFiles/fat.dir/fat/write.c.o.provides
 
-CMakeFiles/fat.dir/fat/main.c.o.provides.build: CMakeFiles/fat.dir/fat/main.c.o
+CMakeFiles/fat.dir/fat/write.c.o.provides.build: CMakeFiles/fat.dir/fat/write.c.o
 
 
 # Object files for target fat
 fat_OBJECTS = \
-"CMakeFiles/fat.dir/fat/write.c.o" \
+"CMakeFiles/fat.dir/fat/main.c.o" \
 "CMakeFiles/fat.dir/fat/mbr/mbr.c.o" \
-"CMakeFiles/fat.dir/fat/main.c.o"
+"CMakeFiles/fat.dir/fat/write.c.o"
 
 # External object files for target fat
 fat_EXTERNAL_OBJECTS =
 
-fat: CMakeFiles/fat.dir/fat/write.c.o
-fat: CMakeFiles/fat.dir/fat/mbr/mbr.c.o
 fat: CMakeFiles/fat.dir/fat/main.c.o
+fat: CMakeFiles/fat.dir/fat/mbr/mbr.c.o
+fat: CMakeFiles/fat.dir/fat/write.c.o
 fat: CMakeFiles/fat.dir/build.make
 fat: CMakeFiles/fat.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ethan/Desktop/fat32/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable fat"
@@ -151,9 +151,9 @@ CMakeFiles/fat.dir/build: fat
 
 .PHONY : CMakeFiles/fat.dir/build
 
-CMakeFiles/fat.dir/requires: CMakeFiles/fat.dir/fat/write.c.o.requires
-CMakeFiles/fat.dir/requires: CMakeFiles/fat.dir/fat/mbr/mbr.c.o.requires
 CMakeFiles/fat.dir/requires: CMakeFiles/fat.dir/fat/main.c.o.requires
+CMakeFiles/fat.dir/requires: CMakeFiles/fat.dir/fat/mbr/mbr.c.o.requires
+CMakeFiles/fat.dir/requires: CMakeFiles/fat.dir/fat/write.c.o.requires
 
 .PHONY : CMakeFiles/fat.dir/requires
 
