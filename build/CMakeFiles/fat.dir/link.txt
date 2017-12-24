@@ -1,1 +1,0 @@
-/usr/bin/cc     CMakeFiles/fat.dir/fat/main.c.o CMakeFiles/fat.dir/fat/mbr/mbr.c.o CMakeFiles/fat.dir/fat/write.c.o  -o fat 
