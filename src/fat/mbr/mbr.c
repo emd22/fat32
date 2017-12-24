@@ -88,8 +88,11 @@ void parse_partition(int part_n, uint8_t *mbr_head, size_t location) {
         part->bootable = mbr_head[location] == 0x81;
     }
 
-    if (!part->error_code) {
+    if (!part->error.code) {
         printf("Usable partition: %d - %d\n", part->lba_first_sector, part->lba_end_sector);
+    }
+    else {
+        printf("Error: %s\n", part->error.msg);
     }
 }
 

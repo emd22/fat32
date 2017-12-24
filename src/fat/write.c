@@ -15,6 +15,8 @@
 // how PATA works and build off that.
 
 static FILE *fp;
+const char *fn = "test_drive";
+
 static size_t drive_size = 0;
 
 void set_drive_size(void) {
@@ -24,7 +26,6 @@ void set_drive_size(void) {
 
 void drive_init(void) {
     // open file for binary reading + appending.
-    const char *fn = "test_drive";
 
     fp = fopen(fn, "a+b"); 
     
@@ -57,7 +58,10 @@ void drive_write(uint8_t *buf, size_t pos, size_t size) {
 
 void format_disk(size_t bytes) {
     puts("formatting disk");
-    rewind(fp);
+
+    fclose(fp);
+
+    fp = fopen(fn, "w+b");
 
     uint8_t *zeros = (uint8_t *)calloc(bytes/10, 1);
     int i;

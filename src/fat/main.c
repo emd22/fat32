@@ -26,7 +26,7 @@ void load_mbr(partition_t *parts, size_t b_size) {
 }
 
 void write_partitions(partition_t *partitions, size_t b_size) {
-    int eq_size = b_size/512;
+    int eq_size = b_size/4;
     int i;
     for (i = 0; i < 4; i++) {
         partitions[i].lba_first_sector = eq_size*i;
@@ -36,7 +36,7 @@ void write_partitions(partition_t *partitions, size_t b_size) {
 }
 
 int main() {
-    size_t b_size = 800; //12 KiBs
+    size_t b_size = 12000; //12 KiBs
     partition_t parts[4];
 
     drive_init();
