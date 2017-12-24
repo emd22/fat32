@@ -9,6 +9,21 @@
 static mbr_t mbr;
 static int   def_part;
 
+void mbr_error(int code, int part) {
+    const char err_strs[][32] = {
+        "No error", 
+        "Sys id not found", 
+        "EBR partitions not supported",
+        "MBR header not valid"
+    };
+
+    mbr_error_t mbr_err;
+    mbr_err.code = code;
+    mbr_err.msg  = err_strs[code];
+
+    mbr.partitions[part].error = mbr_err;
+}
+
 void mbr_init(void) {
     int i;
     for (i = 0; i < 4; i++) {
@@ -17,7 +32,8 @@ void mbr_init(void) {
         this initializes each one for later use.
         to have more partitions use EBR.
         */
-        mbr.partitions[i].error_code = 0;
+        //set all paritions error settings to no error
+        mbr_error(MBR_NO_ERROR, i);
     }
     def_part = 0;
 }
@@ -30,14 +46,11 @@ uint32_t to_uint32(uint8_t *n, unsigned pos) {
            (unsigned)n[pos+1] << 8  | n[pos];
 }
 
-
 /* 
 create a new MBR on disk
 (file in this case)
 */
-void mbr_new(partition_t *partitions, size_t b_size) {
-    format_disk(b_size);
-
+void mbr_new(partition_t *partitions) {
     uint8_t mbr_head[512];
 
     memset(mbr_head, 0, 512);
@@ -51,7 +64,6 @@ void mbr_new(partition_t *partitions, size_t b_size) {
         mbr_head[PARTITION_ENTRY_1+(i*10)+8] = partitions[i].lba_first_sector;
         mbr_head[PARTITION_ENTRY_1+(i*10)+12] = partitions[i].lba_sector_count;
     }
-
     drive_write(mbr_head, 0, 512);
 }
 
@@ -61,18 +73,23 @@ void parse_partition(int part_n, uint8_t *mbr_head, size_t location) {
 
     if (!sys_id) {
         printf("Partition %d is empty.\n", part_n+1);
-        part->error_code = MBR_NO_SYS_ID;
+        mbr_error(MBR_NO_SYS_ID, part_n);
     }
 
     if (sys_id == 0x50 || sys_id == 0xF0 || sys_id == 0x85) {
-        part->error_code = MBR_FOUND_EBR;
+        mbr_error(MBR_FOUND_EBR, part_n);
     }
+
     else {
         part->type = sys_id;
         part->lba_first_sector = to_uint32(mbr_head, location+8);
         part->lba_sector_count = to_uint32(mbr_head, location+12);
         part->lba_end_sector = part->lba_first_sector+part->lba_sector_count;
         part->bootable = mbr_head[location] == 0x81;
+    }
+
+    if (!part->error_code) {
+        printf("Usable partition: %d - %d\n", part->lba_first_sector, part->lba_end_sector);
     }
 }
 

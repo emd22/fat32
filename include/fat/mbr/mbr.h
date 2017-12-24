@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#define MBR_NO_ERROR  0
 #define MBR_NO_SYS_ID 1
 #define MBR_FOUND_EBR 2
 #define MBR_NOT_VALID 3
@@ -33,16 +34,21 @@ enum SELECTED_PART {
 };
 
 typedef struct {
-    uint8_t  error_code;
-    uint8_t  bootable;
-    uint8_t  type;
-    unsigned lba_first_sector;
-    unsigned lba_sector_count;
+    uint8_t     code;
+    const char *msg;
+} mbr_error_t;
+
+typedef struct {
+    mbr_error_t error;
+    uint8_t     bootable;
+    uint8_t     type;
+    unsigned    lba_first_sector;
+    unsigned    lba_sector_count;
     /*
     just for ease of use 
     (you can just do lba_first_sector+lba_sector_count)
     */
-    unsigned lba_end_sector; 
+    unsigned    lba_end_sector; 
 } partition_t;
 
 typedef struct {
@@ -55,7 +61,7 @@ int mbr_load(void);
 void mbr_select_partition(enum SELECTED_PART part_n);
 void mbr_io(enum RW_TYPE type, uint8_t *buffer, size_t lba, size_t len);
 mbr_t *mbr_get(void);
-void mbr_new(partition_t *partitions, size_t b_size);
+void mbr_new(partition_t *partitions);
 void set_sys_id(uint8_t sys_id, int position);
 
 #endif

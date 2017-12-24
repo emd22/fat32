@@ -14,13 +14,14 @@ void load_mbr(partition_t *parts, size_t b_size) {
     uint8_t status;
     status = mbr_load();
     if (status == MBR_NOT_VALID) {
-        mbr_new(parts, b_size);
         if (tried) {
             printf("MBR error: MBR not valid\n");
             exit(EXIT_FAILURE);
         }
-        load_mbr(parts, b_size);
         tried = 1;
+        printf("making new mbr\n");
+        mbr_new(parts);
+        load_mbr(parts, b_size);
     }
 }
 
@@ -35,30 +36,37 @@ void write_partitions(partition_t *partitions, size_t b_size) {
 }
 
 int main() {
-    size_t b_size = 12000; //12 KiBs
+    size_t b_size = 800; //12 KiBs
+    partition_t parts[4];
 
     drive_init();
-
     format_disk(b_size);
-    partition_t parts[4];
     write_partitions(parts, b_size);
+    mbr_new(parts);
+    drive_init();
 
-    mbr_t *mbr;
+    uint8_t status;
 
-    mbr_select_partition(PART_2);
+    status = mbr_load();
+
+    if (status != MBR_NO_ERROR)
+
+    // load_mbr(parts, b_size);
+    
     set_sys_id(FAT32, PARTITION_ENTRY_2);
 
-    load_mbr(parts, b_size);
+    mbr_t *mbr;
     mbr = mbr_get();
+    mbr_select_partition(PART_2);
 
-    uint8_t out[32];
-    out[0] = '8';
+    // uint8_t out[32];
+    // out[0] = '8';
 
-    mbr_io(WRITE, out, 0, 1);
+    // mbr_io(WRITE, out, 0, 1);
 
-    uint8_t in[32];
-    mbr_io(READ, in, 0, 1);
-    printf("got: %d\n", in[0]);
+    // uint8_t in[32];
+    // mbr_io(READ, in, 0, 1);
+    // printf("got: %d\n", in[0]);
 
     drive_close();
 
