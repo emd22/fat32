@@ -36,7 +36,7 @@ void write_partitions(partition_t *partitions, size_t b_size) {
 }
 
 int main() {
-    size_t b_size = 12000; //12 KiBs
+    size_t b_size = 10000; //12 KiBs
     partition_t parts[4];
 
     drive_init();

@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <write.h>
 
@@ -16,7 +17,6 @@
 
 static FILE *fp;
 const char *fn = "test_drive";
-
 static size_t drive_size = 0;
 
 void set_drive_size(void) {
@@ -42,6 +42,7 @@ void drive_read(uint8_t *buf, size_t pos, size_t size) {
         memset(buf, 0, size);
         return;
     }
+
     printf("trying to read from %lu\n", pos);
     fseek(fp, pos, SEEK_SET);    
     fread(buf, 1, size, fp);
@@ -59,17 +60,18 @@ void drive_write(uint8_t *buf, size_t pos, size_t size) {
 void format_disk(size_t bytes) {
     puts("formatting disk");
 
-    fclose(fp);
-
-    fp = fopen(fn, "w+b");
-
-    uint8_t *zeros = (uint8_t *)calloc(bytes/10, 1);
-    int i;
-    for (i = 0; i < 10; i++) {
-        fseek(fp, (int)(bytes/10), SEEK_SET);
-        fwrite(zeros, 1, (int)(bytes/10), fp);
+    if (ftruncate(fileno(fp), bytes) != 0) {
+        printf("Error truncating file from %lu to %lu\n", drive_size, bytes);
     }
-    free(zeros);
+
+    // uint8_t *zeros = (uint8_t *)calloc(bytes/10, 1);
+    // int i;
+    // for (i = 0; i < 10; i++) {
+    //     fseek(fp, (int)(bytes/10), SEEK_SET);
+    //     fwrite(zeros, 1, (int)(bytes/10), fp);
+    // }
+    // free(zeros);
+    drive_size = bytes;
 }
 
 void drive_close(void) {
